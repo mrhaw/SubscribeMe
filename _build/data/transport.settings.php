@@ -55,12 +55,12 @@ foreach ($s as $key => $value) {
     else { $type = 'textfield'; }
 
     $area = (substr($key,0,7) == 'paypal.') ? 'PayPal' : (substr($key,0,6) == 'email.') ? 'Email' : 'Default';
-    $settings['subscribeme.'.$key] = $modx->newObject('modSystemSetting');
-    $settings['subscribeme.'.$key]->set('key', 'subscribeme.'.$key);
-    $settings['subscribeme.'.$key]->fromArray(array(
+    $settings['subscribemeads.'.$key] = $modx->newObject('modSystemSetting');
+    $settings['subscribemeads.'.$key]->set('key', 'subscribemeads.'.$key);
+    $settings['subscribemeads.'.$key]->fromArray(array(
         'value' => $value,
         'xtype' => $type,
-        'namespace' => 'subscribeme',
+        'namespace' => 'subscribemeads',
         'area' => $area
     ));
 }

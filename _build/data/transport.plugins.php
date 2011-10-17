@@ -27,7 +27,7 @@ $plugins[0] = $modx->newObject('modPlugin');
 $plugins[0]->set('id',1);
 $plugins[0]->set('name','SubscribeMe');
 $plugins[0]->set('description','Checks subscription states on pageviews to make sure users don\'t have access to benefits longer than paid for.');
-$plugins[0]->set('plugincode', getSnippetContent($sources['elements'] . 'plugins/subscribeme.inc.php'));
+$plugins[0]->set('plugincode', getSnippetContent($sources['elements'] . 'plugins/subscribemeads.inc.php'));
 $plugins[0]->set('category', 0);
 
 $events = array();

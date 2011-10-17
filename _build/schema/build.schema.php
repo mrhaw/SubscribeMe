@@ -37,9 +37,9 @@ $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 $root = dirname(dirname(dirname(__FILE__))).'/';
 $sources = array(
     'root' => $root,
-    'core' => $root.'core/components/subscribeme/',
-    'model' => $root.'core/components/subscribeme/model/',
-    'assets' => $root.'assets/components/subscribeme/',
+    'core' => $root.'core/components/subscribemeads/',
+    'model' => $root.'core/components/subscribemeads/model/',
+    'assets' => $root.'assets/components/subscribemeads/',
     'schema' => $root.'_build/schema/',
 );
 $manager= $modx->getManager();
@@ -119,7 +119,7 @@ EOD;
 */
 EOD;
 
-$generator->parseSchema($sources['schema'].'subscribeme.mysql.schema.xml', $sources['model']);
+$generator->parseSchema($sources['schema'].'subscribemeads.mysql.schema.xml', $sources['model']);
 
 $mtime= microtime();
 $mtime= explode(" ", $mtime);

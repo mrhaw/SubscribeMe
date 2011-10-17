@@ -24,8 +24,8 @@
 if ($object->xpdo) {
     $modx =& $object->xpdo;
 
-    $modelPath = $modx->getOption('subscribeme.core_path',null,$modx->getOption('core_path').'components/subscribeme/').'model/';
-    $modx->addPackage('subscribeme',$modelPath);
+    $modelPath = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/').'model/';
+    $modx->addPackage('subscribemeads',$modelPath);
 
     $manager = $modx->getManager();
 

@@ -24,7 +24,7 @@
  * @var array $scriptProperties
  */
 
-$path = $modx->getOption('subscribeme.core_path',null,$modx->getOption('core_path').'components/subscribeme/');
+$path = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/');
 $modx->getService('sm','SubscribeMe',$path.'classes/');
 
 return include($path.'elements/snippets/smCheckout.inc.php');

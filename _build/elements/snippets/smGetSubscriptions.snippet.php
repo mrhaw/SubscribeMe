@@ -37,7 +37,7 @@ $rowSeparator = $modx->getOption('rowSeparator',$scriptProperties,"\n");
 if (!($modx->user instanceof modUser))
     return '';
 
-$path = $modx->getOption('subscribeme.core_path',null,$modx->getOption('core_path').'components/subscribeme/');
+$path = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/');
 $modx->getService('sm','SubscribeMe',$path.'classes/');
 
 $c = $modx->newQuery('smSubscription');

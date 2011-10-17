@@ -22,11 +22,11 @@
 $action = $modx->newObject('modAction');
 $action->fromArray(array(
     'id' => 0,
-    'namespace' => 'subscribeme',
+    'namespace' => 'subscribemeads',
     'parent' => '0',
     'controller' => 'csm/index',
     'haslayout' => '1',
-    'lang_topics' => 'subscribeme:default,user',
+    'lang_topics' => 'subscribemeads:default,user',
     'assets' => '',
 ),'',true,true);
 
@@ -34,9 +34,9 @@ $action->fromArray(array(
 /* Create the menu object to the index */
 $menu = $modx->newObject('modMenu');
 $menu->fromArray(array(
-    'text' => 'subscribeme',
+    'text' => 'subscribemeads',
     'parent' => 'components',
-    'description' => 'subscribeme.desc',
+    'description' => 'subscribemeads.desc',
     'icon' => 'images/icons/plugin.gif',
     'menuindex' => '9',
     'params' => '',

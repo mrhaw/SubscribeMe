@@ -20,7 +20,7 @@
  * Suite 330, Boston, MA 02111-1307 USA
 */
 
-$path = $modx->getOption('subscribeme.core_path',null,$modx->getOption('core_path').'components/subscribeme/').'';
+$path = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/').'';
 $modx->getService('sm','SubscribeMe',$path.'classes/');
 $result = include($path.'elements/hooks/newsubscription.inc.php');
 

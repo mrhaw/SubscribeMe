@@ -20,13 +20,19 @@
  * Suite 330, Boston, MA 02111-1307 USA
 */
 
-/* @var modX $modx
- * @var array $scriptProperties
- */
+require_once dirname(dirname(dirname(dirname(__FILE__)))).'/config.core.php';
+require_once MODX_CORE_PATH.'config/'.MODX_CONFIG_KEY.'.inc.php';
+require_once MODX_CONNECTORS_PATH.'index.php';
 
-$path = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/');
-$modx->getService('sm','SubscribeMe',$path.'classes/');
+$corePath = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/');
+require_once $corePath.'classes/subscribemeads.class.php';
+$modx->sm = new SubscribeMe($modx);
+$modx->sm->initialize('mgr');
 
-return include($path.'elements/snippets/smListProducts.inc.php');
-
+/* handle request */
+$path = $modx->sm->config['processors_path'];
+$modx->request->handleRequest(array(
+    'processors_path' => $path,
+    'location' => '',
+));
 ?>

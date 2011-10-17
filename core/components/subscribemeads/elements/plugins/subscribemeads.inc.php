@@ -21,12 +21,21 @@
 */
 
 /* @var modX $modx
- * @var array $scriptProperties
  */
 
-$path = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/');
-$modx->getService('sm','SubscribeMe',$path.'classes/');
-
-return include($path.'elements/snippets/smListProducts.inc.php');
-
-?>
+if ($modx->user->id > 0) {
+  $path = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/');
+  $e = $modx->event;
+  $modx->getService('sm','SubscribeMe',$path.'classes/');
+  
+  if ($modx->sm->config['debug']) $modx->log(1,'Fired SubscribeMe plugin on event: '.$e->name.' for user '.$modx->user->id);
+  
+  switch ($e->name) {
+      case 'OnWebPageInit':
+	  $modx->sm->checkForExpiredSubscriptions($modx->user->id);
+	  break;
+      case 'OnWebAuthentication':
+	  $modx->sm->checkForExpiredSubscriptions($user->get('id'));
+	  break;
+  }
+}

@@ -53,11 +53,11 @@ foreach ($snips as $sn => $sdesc) {
         else { $type = 'textfield'; }
         $snippetProperties[] = array(
             'name' => $key,
-            'desc' => 'subscribeme.prop_desc.'.$key,
+            'desc' => 'subscribemeads.prop_desc.'.$key,
             'type' => $type,
             'options' => '',
             'value' => ($value != null) ? $value : '',
-            'lexicon' => 'subscribeme:properties'
+            'lexicon' => 'subscribemeads:properties'
         );
     }
     

@@ -40,9 +40,9 @@ $tstart = $mtime;
 set_time_limit(0);
 
 /* define package */
-define('PKG_NAME','SubscribeMe');
+define('PKG_NAME','SubscribeMeAds');
 define('PKG_NAME_LOWER',strtolower(PKG_NAME));
-define('PKG_VERSION','1.0.0');
+define('PKG_VERSION','1.0.1');
 define('PKG_RELEASE','pl');
 
 $root = dirname(dirname(__FILE__)).'/';
@@ -51,14 +51,14 @@ $sources= array (
     'build' => $root .'_build/',
     'resolvers' => $root . '_build/resolvers/',
     'data' => $root . '_build/data/',
-    'source_core' => $root.'core/components/'.PKG_NAME_LOWER,
-    'source_assets' => $root.'assets/components/'.PKG_NAME_LOWER,
-    'elements' => $root.'core/components/'.PKG_NAME_LOWER.'/elements/',
-    'chunks' => $root.'core/components/'.PKG_NAME_LOWER.'/elements/chunks/',
+    'source_core' => $root.'core/components/subscribemeads',
+    'source_assets' => $root.'assets/components/subscribemeads',
+    'elements' => $root.'core/components/subscribemeads/elements/',
+    'chunks' => $root.'core/components/subscribemeads/elements/chunks/',
     'snippets' => $root.'_build/elements/snippets/',
-    'lexicon' => $root . 'core/components/'.PKG_NAME_LOWER.'/lexicon/',
-    'docs' => $root.'core/components/'.PKG_NAME_LOWER.'/docs/',
-    'model' => $root.'core/components/'.PKG_NAME_LOWER.'/model/',
+    'lexicon' => $root . 'core/components/subscribemeads/lexicon/',
+    'docs' => $root.'core/components/subscribemeads/docs/',
+    'model' => $root.'core/components/subscribemeads/model/',
 );
 unset($root);
 

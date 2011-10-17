@@ -25,9 +25,9 @@ require_once dirname(dirname(dirname(__FILE__))) . '/config.core.php';
 require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
 $modx= new modX();
 $modx->initialize('mgr');
-$modelPath = $modx->getOption('subscribeme.core_path',null,$modx->getOption('core_path').'components/subscribeme/').'model/';
+$modelPath = $modx->getOption('subscribemeads.core_path',null,$modx->getOption('core_path').'components/subscribemeads/').'model/';
 
-$modx->addPackage('subscribeme',$modelPath);
+$modx->addPackage('subscribemeads',$modelPath);
 
 $manager = $modx->getManager();
 
