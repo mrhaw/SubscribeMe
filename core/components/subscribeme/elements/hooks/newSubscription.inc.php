@@ -33,7 +33,7 @@ $prod = $hook->getValue('product');
 
 $product = $modx->getObject('smProduct',$prod);
 if (!($product instanceof smProduct)) {
-  $modx->log(1,'There is no product with ID '.$prod);
+  $modx->log(modX::LOG_LEVEL_ERROR,'There is no product with ID '.$prod);
   return 'There is no product with ID '.$prod;
 }
 
@@ -50,7 +50,8 @@ if ($sub->save()) {
   return $modx->sendRedirect($url);
 }
 else {
-  return 'Error saving subscription.';
+    $modx->log(modX::LOG_LEVEL_ERROR,'Error saving subscription.');
+    return false;
 }
 
 ?>
