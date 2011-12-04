@@ -27,7 +27,7 @@ The package can be found in the MODX Revolution Package Manager and has been tes
 1. Install the package, and in Components -> SubscribeMe set up some products.
 2. List all products using the smListProducts snippet. The default chunks use a FormIt call in the outer template
    which calls the smNewSubscription hook. The smNewSubscriptions hook creates a new inactive subscription, and then
-   redirects to the resource as specified in the FormIt's &optionsResource property, with &subid=16 appended to the
+   redirects to the resource as specified in the FormIt's &optionsResource property, with &subid and a number appended to the
    link. "More information on the RTFM":http://rtfm.modx.com/display/ADDON/SubscribeMe.Listing+Products+with+the+smListProducts+Snippet
 3. Set up the resource to display the payment options. PayPal is included, but it could be possible to add other
    methods (like manual payments or other payment options you add yourself) should you want to. The payment options
