@@ -36,7 +36,7 @@ SM.grid.Subscribers = function(config) {
             xtype: 'button',
             text: _('sm.button.add',{ what: _('sm.subscriber') } ),
             handler: function() {
-                window.location.href = '?a='+MODx.action['csm/index']+'&action=subscriber';
+                window.location.href = '?a='+MODx.action['subscribeme:csm/index']+'&action=subscriber';
             }
         },'-',{
             xtype: 'button',
@@ -142,7 +142,7 @@ SM.grid.Subscribers = function(config) {
                         text: _('update')+' '+_('user'),
                         handler: function(grid, rowIndex, e) {
                             var eid = Ext.getCmp('grid-subscribers').getSelectionModel().getSelected().data.id;
-                            window.location.href = '?a='+MODx.action['csm/index']+'&action=subscriber&id='+eid;
+                            window.location.href = '?a='+MODx.action['subscribeme:csm/index']+'&action=subscriber&id='+eid;
                         }
                     }]
                 });

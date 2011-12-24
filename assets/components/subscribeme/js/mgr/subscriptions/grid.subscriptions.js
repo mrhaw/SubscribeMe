@@ -199,7 +199,7 @@ Ext.extend(SM.grid.Subscriptions,MODx.grid.Grid,{
             text: _('update')+' '+_('user'),
             handler: function(grid, rowIndex, e) {
                 var eid = d.user_id;
-                window.location.href = '?a='+MODx.action['csm/index']+'&action=subscriber&id='+eid;
+                window.location.href = '?a='+MODx.action['subscribeme:csm/index']+'&action=subscriber&id='+eid;
             }
         },{
             text: _('sm.subscription.manualtransaction'),

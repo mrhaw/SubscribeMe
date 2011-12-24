@@ -1,2 +1,4 @@
+Properly namespace actions for MODX 2.2+ - will break compatibility with 2.1.
+
 +++++ SubscribeMe 1.0.0 +++++
 Initial publicly available package.
