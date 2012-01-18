@@ -1,4 +1,10 @@
-Properly namespace actions for MODX 2.2+ - will break compatibility with 2.1.
+SubscribeMe 1.1.0
+=================
+UI updates for Revo 2.2
+Properly namespace actions for MODX 2.2+ - breaks compatibility with 2.1.
+Fixed some error reporting in the newSubscription hook.
+Fix bug with default chunks and file based chunks.
 
-+++++ SubscribeMe 1.0.0 +++++
+SubscribeMe 1.0.0
+=================
 Initial publicly available package.

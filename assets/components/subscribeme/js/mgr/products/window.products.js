@@ -35,52 +35,69 @@ SM.window.Products = function(config) {
             name: 'name',
             xtype: 'textfield',
             fieldLabel: _('sm.name'),
-            width: 270,
-            allowBlank: false
+            allowBlank: false,
+            width: '95%'
         },{
             name: 'description',
             fieldLabel: _('sm.description'),
             xtype: 'textarea',
-            width: 270,
-            height: 130
+            height: 130,
+            width: '95%'
         },{
-            name: 'price',
-            fieldLabel: _('sm.price'),
-            xtype: 'numberfield',
-            allowNegative: false,
-            allowBlank: false
-        },{
-            name: 'amount_shipping',
-            fieldLabel: _('sm.amount_shipping'),
-            xtype: 'numberfield',
-            allowNegative: false
-        },{
-            name: 'amount_vat',
-            fieldLabel: _('sm.amount_vat'),
-            xtype: 'numberfield',
-            allowNegative: false
-        },{
-            name: 'periods',
-            fieldLabel: _('sm.periods'),
-            xtype: 'numberfield',
-            allowNegative: false,
-            allowDecimal: false,
-            allowBlank: false
-        },{
-            name: 'period',
-            fieldLabel: _('sm.period'),
-            xtype: 'sm-combo-period',
-            allowBlank: false
+            layout:'column',
+            items:[{
+                columnWidth:.5,
+                layout:'form',
+                items:[{
+                    name: 'price',
+                    fieldLabel: _('sm.price'),
+                    xtype: 'numberfield',
+                    allowNegative: false,
+                    allowBlank: false,
+                    width: '93%'
+                },{
+                    name: 'amount_shipping',
+                    fieldLabel: _('sm.amount_shipping'),
+                    xtype: 'numberfield',
+                    allowNegative: false,
+                    width: '93%'
+                },{
+                    name: 'amount_vat',
+                    fieldLabel: _('sm.amount_vat'),
+                    xtype: 'numberfield',
+                    allowNegative: false,
+                    width: '93%'
+                }]
+            },{
+                columnWidth: .5,
+                layout: 'form',
+                items: [{
+                    name: 'periods',
+                    fieldLabel: _('sm.periods'),
+                    xtype: 'numberfield',
+                    allowNegative: false,
+                    allowDecimal: false,
+                    allowBlank: false,
+                    width: '93%'
+                },{
+                    name: 'period',
+                    fieldLabel: _('sm.period'),
+                    xtype: 'sm-combo-period',
+                    allowBlank: false,
+                    width: '40%'
+                },{
+                    name: 'sortorder',
+                    fieldLabel: _('sm.sortorder'),
+                    xtype: 'numberfield',
+                    allowDecimal: false,
+                    allowNegative: false,
+                    width: '93%'
+                }]
+            }]
         },{
             name: 'active',
             fieldLabel: _('sm.active'),
             xtype: 'checkbox'
-        },{
-            name: 'sortorder',
-            fieldLabel: _('sm.sortorder'),
-            xtype: 'numberfield',
-            allowDecimal: false,
-            allowNegative: false
         },{
             xtype: (config.record) ? 'sm-grid-productpermissions' : 'hidden',
             product: (config.record) ? config.record.product_id : 0,

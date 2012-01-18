@@ -38,13 +38,13 @@ SM.window.AddSubscription = function(config) {
             hiddenName: 'user_id',
             xtype: (config.record) ? (config.record.user_id) ? 'hidden' : 'sm-combo-subscribers' : 'sm-combo-subscribers',
             fieldLabel: _('user'),
-            width: 200
+            width: '95%'
         },{
             name: 'product_id',
             hiddenName: 'product_id',
             xtype: 'sm-combo-product',
             fieldLabel:  _('sm.product'),
-            width: 200,
+            width: '95%',
             hideOptions: true
         },{
             name: 'expires',
@@ -52,13 +52,13 @@ SM.window.AddSubscription = function(config) {
             xtype: 'datefield',
             allowDecimal: false,
             allowNegative: false,
-            width: 200
+            width: '95%'
         },{
             name: 'reference',
             fieldLabel: _('sm.reference'),
             xtype: 'textfield',
             allowBlank: false,
-            width: 200
+            width: '95%'
         }],
         listeners: {
             success: function(result,form) {

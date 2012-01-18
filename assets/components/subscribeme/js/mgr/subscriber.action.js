@@ -35,6 +35,7 @@ SM.page.Subscriber = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         renderTo: 'subscribeme',
+        cls:'container',
         buttons: [{
             process: 'submit',
             text: _('save'),
@@ -58,12 +59,11 @@ SM.page.Subscriber = function(config) {
         },{
             xtype: 'modx-tabs',
             width: '98%',
-            bodyStyle: 'padding: 10px 10px 10px 10px;',
             border: true,
             defaults: {
                 border: false,
                 autoHeight: true,
-                bodyStyle: 'padding: 5px 8px 5px 5px;'
+                cls:'main-wrapper'
             },
             items: [{
                 title: _('sm.subscriber'),
@@ -112,11 +112,11 @@ SM.panel.Header = function(config) {
     config = config || {};
     Ext.apply(config,{
         border: false
-        ,baseCls: 'modx-formpanel'
+        ,baseCls: 'modx-page-header'
         ,items: [{
             html: '<h2>'+_('subscribeme')+': '+((SM.record) ? SM.record.fullname+' ('+SM.record.username+')' : _('sm.button.add',{what: _('user')})) + '</h2>'
             ,border: false
-            ,cls: 'modx-page-header'
+
         }]
     });
     SM.panel.Header.superclass.constructor.call(this,config);
