@@ -68,6 +68,7 @@ elseif ($subfilter == 'current') {
 $total = $modx->getCount('modUser',$c);
 
 $c->sortby($sort,$dir);
+$c->limit($limit,$start);
 
 $results = array();
 $qr = $modx->getIterator('modUser',$c);
