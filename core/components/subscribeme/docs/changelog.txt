@@ -1,5 +1,6 @@
 +++++ SubscribeMe (MODX 2.1 branch) +++++
 Fix subscriber pagination
+Prevent user ID and user profile ID mixups in edge cases
 
 +++++ SubscribeMe 1.0.0 +++++
 Initial publicly available package.
