@@ -47,8 +47,6 @@ $ppid = $sub->get('pp_profileid');
 if (empty($ppid))
     return $modx->lexicon('sm.error.notspecified',array('what' => $modx->lexicon('sm.pp_profileid')));
 
-$successUrl = $modx->makeUrl($hook->formit->config['successResource']);
-
 /* Check if we're in the sandbox or live and fetch the appropriate credentials */
 $p['sandbox'] = $modx->getOption('subscribeme.paypal.sandbox',null,true);
 if (!$p['sandbox']) {
