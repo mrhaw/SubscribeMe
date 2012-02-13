@@ -34,8 +34,11 @@ $c = $modx->newQuery('modUser');
 
 $c->select(
     array(
-        'modUser.*',
-        'Profile.*',
+        'modUser.id',
+        'modUser.username',
+        'modUser.active',
+        'Profile.email',
+        'Profile.fullname',
     )
 );
 
