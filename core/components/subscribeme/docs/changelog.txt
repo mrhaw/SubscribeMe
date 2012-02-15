@@ -1,4 +1,9 @@
-SubscribeMe 1.1.0
+SubscribeMe 1.1.1 (MODX 2.2+ branch)
+=================
+Fix issue with upper vs lowercase filename
+Prevent user/user profile ID mixup which can cause issues in edge cases.
+
+SubscribeMe 1.1.0 (MODX 2.2+ branch)
 =================
 UI updates for Revo 2.2
 Properly namespace actions for MODX 2.2+ - breaks compatibility with 2.1.

@@ -40,7 +40,7 @@ if ($_GET['action'] == 'subscriber') {
         $user = $modx->getObject('modUser',$_GET['id']);
         if ($user instanceof modUser) {
             $profile = $user->getOne('Profile');
-            $data = array_merge($user->toArray(),$profile->toArray());
+            $data = array_merge($profile->toArray(),$user->toArray());
             $data['lastlogin'] = date(DATE_RFC822,$data['lastlogin']);
             $data['dob'] = date($modx->config['manager_date_format'],$data['dob']);
             $modx->regClientStartupHTMLBlock('
