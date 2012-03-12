@@ -1,4 +1,4 @@
-+++++ SubscribeMe (MODX 2.1 branch) +++++
++++++ SubscribeMe 1.0.1 (MODX 2.1 branch) +++++
 Fix issue with upper vs lowercase filename.
 Fix subscriber pagination
 Prevent user ID and user profile ID mixups in edge cases
