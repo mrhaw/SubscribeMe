@@ -33,9 +33,10 @@ $modx->regClientStartupHTMLBlock('
 
 $modx->regClientStartupScript($sm->config['js_url'].'mgr/subscribeme.class.js');
 
-if ($_GET['action'] == 'subscriber') {
+$action = $modx->getOption('action',$_GET,'index');
+if ($action == 'subscriber') {
 
-    if (is_numeric($_GET['id']) && $_GET['id'] > 0) {
+    if (isset($_GET['id']) && is_numeric($_GET['id']) && $_GET['id'] > 0) {
         // Fetch the data we need.
         $user = $modx->getObject('modUser',$_GET['id']);
         if ($user instanceof modUser) {
@@ -98,4 +99,4 @@ else {
 }
 
 return '<div id="subscribeme"></div>';
-?>
+
