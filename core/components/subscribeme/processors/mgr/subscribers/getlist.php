@@ -41,6 +41,12 @@ $c->select(
         'Profile.fullname',
     )
 );
+if (isset($fields)) {
+    foreach ($fields as $fld) {
+        if (in_array($fld, array('id', 'username', 'active', 'email', 'fullname'))) continue;
+        $c->select(array($fld));
+    }
+}
 
 $c->innerJoin('modUserProfile','Profile');
 
@@ -121,8 +127,3 @@ $ra = array(
 );
 
 return $modx->toJSON($ra);
-
-?>
-
-
-?>
