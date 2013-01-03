@@ -138,7 +138,7 @@ if($status == 200 && $response == 'VERIFIED') {
                 }
                 $user = $subscription->get('user_id');
                 // We've got a User ID here... let's just verify their user groups.
-                $modx->sm->checkForExpiredSubscriptions($subscription->get('user'));
+                $modx->sm->checkForExpiredSubscriptions($subscription->get('user_id'));
 
 
                 // Send a notification email to notify them of the skipped payment
@@ -171,7 +171,7 @@ if($status == 200 && $response == 'VERIFIED') {
                 }
                 $user = $subscription->get('user_id');
                 // We've got a User ID here... let's just verify their user groups.
-                $modx->sm->checkForExpiredSubscriptions($subscription->get('user'));
+                $modx->sm->checkForExpiredSubscriptions($subscription->get('user_id'));
 
                 // Send a notification email to notify them of the skipped payment
                 /* @var modUser $user */
