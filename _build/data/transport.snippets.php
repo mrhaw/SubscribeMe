@@ -29,7 +29,8 @@ $snips = array(
     'smListProducts' => 'Standalone snippet that will output a list of the products.',
     'smNewSubscription' => 'FormIt hook that will create a new subscription object for the current user, and redirects to the payment options screen.',
     'smUpdateUserProfile' => 'FormIt hook that will save POST data to a users profile.',
-    'smGetSubscriptions' => 'Snippet to fetch the subscriptions of the currently logged in user.'
+    'smGetSubscriptions' => 'Snippet to fetch the subscriptions of the currently logged in user.',
+    'smValidateSubscriptions' => 'Maintenance snippet to validate subscriptions.',
 );
 
 $snippets = array();
