@@ -239,7 +239,7 @@ class SubscribeMe {
     public function sendNotificationEmail($type = '', smSubscription $subscription, modUser $user, smProduct $product, $transaction = '') {
         $chunk = ''; $subject = ''; $phs = array();
         if (!($user instanceof modUser) || !($subscription instanceof smSubscription) || !($product instanceof smProduct)) {
-            $this->modx->log(MODX_LEVEL_ERROR,'Error: invalid parameter(s) in SubscribeMe::sendNotificationEmail');
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'Error: invalid parameter(s) in SubscribeMe::sendNotificationEmail');
             return 'Invalid parameter(s) in SubscribeMe::sendNotificationEmail';
         }
 
@@ -309,7 +309,7 @@ class SubscribeMe {
      * @return bool True/false depending on success of checking. Does not imply something changed or not.
      */
     public function checkForExpiredSubscriptions($userid) {
-        if (!is_numeric($userid) || $userid < 0) { $this->modx->log(MODX_LEVEL_WARNING,'SubscribeMe::checkForExpired fired without valid user ID.'); return false; }
+        if (!is_numeric($userid) || $userid < 0) { $this->modx->log(modX::LOG_LEVEL_WARN,'SubscribeMe::checkForExpired fired without valid user ID.'); return false; }
 
         $debug = $this->config['debug'];
         $this->_checkPermissionSubscriptions($userid,$debug);
@@ -375,17 +375,18 @@ class SubscribeMe {
         if ($debug) $this->modx->log(1,$c->toSQL());
 
         if (($count < 1) || !is_numeric($count)) {
-            if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Nothing needs to be taken care of!');
+            if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Nothing needs to be taken care of!');
             return '';
         }
 
         // We found something that needs to be unset.
-        if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Found a user group that needs to be unset.');
+        if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Found a user group that needs to be unset.');
 
         $permissions = $this->modx->getCollection('smSubscription',$c);
         foreach ($permissions as $p) {
+            /* @var smSubscription $p */
             if ($p instanceof smSubscription) {
-                if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Subscription found.');
+                if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Subscription found.');
                 //$ta = $p->get(array('sub_id','expires','ug','rl'));
                 $ta = array(
                     'usergroup' => $p->get('usergroup'),
@@ -397,38 +398,40 @@ class SubscribeMe {
 
                 /* Remove the user group membership */
                 $ugm = $this->modx->getObject('modUserGroupMember',$ta['ugm_id']);
+                /* @var modUserGroupMember $ugm */
                 if ($ugm instanceof modUserGroupMember) {
                     if (!$ugm->remove())
-                        if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Error removing user group membership '.$ta['ugm_id'].' with regards to subscription '.$ta['sub_id']);
+                        if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Error removing user group membership '.$ta['ugm_id'].' with regards to subscription '.$ta['sub_id']);
                     else {
-                        if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Removed user group membership '.$ta['ugm_id'].' related to subscription '.$ta['sub_id']);
+                        if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Removed user group membership '.$ta['ugm_id'].' related to subscription '.$ta['sub_id']);
                         $subObj = $this->modx->getObject('smSubscription',$ta['sub_id']);
+                        /* @var smSubscription $subObj */
                         if ($subObj instanceof smSubscription) {
                             $subObj->set('active',0);
                             if (!$subObj->save())
-                                $this->modx->log(MODX_LEVEL_ERROR,'Error marking subscription as inactive.');
-                            if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Marked subscription as inactive and removed user group membership.');
+                                $this->modx->log(modX::LOG_LEVEL_ERROR,'Error marking subscription as inactive.');
+                            if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Marked subscription as inactive and removed user group membership.');
                         }
                         else
-                            $this->modx->log(MODX_LEVEL_ERROR,'Unable to find related subscription');
+                            $this->modx->log(modX::LOG_LEVEL_ERROR,'Unable to find related subscription');
                     }
                 } else {
-                    if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Not a valid use group member object.');
+                    if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Not a valid use group member object.');
                 }
                 /* Send notification of expired subscription wether we got rid of permissions or not */
                 $user = $this->modx->getObject('modUser',$userid);
                 $product = $this->modx->getObject('smProduct',$p->get('product_id'));
                 $result = $this->sendNotificationEmail('subscription_expired',$p,$user,$product);
                 if ($result !== true) {
-                    $this->modx->log(MODX_LEVEL_ERROR,'Error sending notication email. '.$result);
+                    $this->modx->log(modX::LOG_LEVEL_ERROR,'Error sending notication email. '.$result);
                     return false;
                 }
             }
             else
-                $this->modx->log(MODX_LEVEL_ERROR,'Not a subscription object.');
+                $this->modx->log(modX::LOG_LEVEL_ERROR,'Not a subscription object.');
         }
         if ($debug)
-            $this->modx->log(MODX_LEVEL_ERROR,'Done looping.');
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'Done looping.');
 
         
         return true;
@@ -466,21 +469,22 @@ class SubscribeMe {
         // Let's add the subquery as a NOT EXISTS to the original one.
         $c->andCondition('NOT EXISTS('.$subc->toSQL().')');
 
-        if ($debug) { $c->prepare(); $this->modx->log(MODX_LEVEL_ERROR,$c->toSQL()); }
+        if ($debug) { $c->prepare(); $this->modx->log(modX::LOG_LEVEL_ERROR,$c->toSQL()); }
         // This is our expected query
         /* SELECT smSubscription.sub_id, smSubscription.product_id FROM `modx_sm_subscription` AS `smSubscription` WHERE  (  ( `smSubscription`.`user_id` = 1 AND `smSubscription`.`active` = 1 AND `smSubscription`.`expires` < 'NOW()' )  AND NOT EXISTS(SELECT `id` FROM `modx_sm_product_permissions` AS `smProductPermissions` WHERE `smSubscription`.`product_id` = `smProductPermissions`.`product_id` ) )  */
 
         $collection = $this->modx->getCollection('smSubscription',$c);
-        if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Found '.count($collection).' subscriptions to action.');
+        if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Found '.count($collection).' subscriptions to action.');
 
         if (count($collection) < 1) {
-            if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Nothing to do.');
+            if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Nothing to do.');
             return '';
         }
 
         foreach ($collection as $sub) {
+            /* @var smSubscription $sub */
             $subid = $sub->get('sub_id');
-            if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Actioning subscription '.$subid);
+            if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Actioning subscription '.$subid);
             $prodid = $sub->get('product_id');
             $product = $this->modx->getObject('smProduct',$prodid);
             $userid = $sub->get('user_id');
@@ -491,18 +495,18 @@ class SubscribeMe {
 
             if ($sub->save()) {
                 // Successful save. Email notification.
-                if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Succesfully saved (deactivated) subscription '.$subid.'. ');
+                if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Succesfully saved (deactivated) subscription '.$subid.'. ');
                 $user = $this->modx->getObject('modUser',$userid);
                 $product = $this->modx->getObject('smProduct',$prodid);
                 $result = $this->sendNotificationEmail('subscription_expired',$sub,$user,$product);
                 if ($result !== true) {
-                    $this->modx->log(MODX_LEVEL_ERROR,'Error sending notification email. '.$result);
+                    $this->modx->log(modX::LOG_LEVEL_ERROR,'Error sending notification email. '.$result);
                     return false;
                 }
             } else
-                $this->modx->log(MODX_LEVEL_ERROR,'Error saving deactivated subscription '.$subid);
+                $this->modx->log(modX::LOG_LEVEL_ERROR,'Error saving deactivated subscription '.$subid);
 
-            if ($debug) $this->modx->log(MODX_LEVEL_ERROR,'Completed actioning subscription '.$subid);
+            if ($debug) $this->modx->log(modX::LOG_LEVEL_ERROR,'Completed actioning subscription '.$subid);
         }
         return true;
     }

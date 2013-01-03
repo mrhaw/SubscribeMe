@@ -37,7 +37,7 @@ $modx->sm = new SubscribeMe($modx);
 
 $ipn_post_data = $_POST;
 
-if ($debug) $modx->log(MODX_LEVEL_ERROR,'IPN Triggered with data: '.print_r($ipn_post_data,true));
+if ($debug) $modx->log(modX::LOG_LEVEL_ERROR,'IPN Triggered with data: '.print_r($ipn_post_data,true));
 
 // Choose url based on test_ipn value
 if(array_key_exists('test_ipn', $ipn_post_data) && 1 === (int) $ipn_post_data['test_ipn'])
@@ -74,15 +74,15 @@ $status   = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
 if ($debug) {
-    $modx->log(MODX_LEVEL_ERROR,'[Request] Posted to '.$url.': '.$req);
-    $modx->log(MODX_LEVEL_ERROR,'[Response] Status: '.$status.' Response: '.$response);
+    $modx->log(modX::LOG_LEVEL_ERROR,'[Request] Posted to '.$url.': '.$req);
+    $modx->log(modX::LOG_LEVEL_ERROR,'[Response] Status: '.$status.' Response: '.$response);
 }
 if($status == 200 && $response == 'VERIFIED') {
     // All good! Proceed...
     switch ($ipn_post_data['txn_type']) {
         case 'recurring_payment':
             // We received a recurring payment
-            if ($debug) $modx->log(MODX_LEVEL_ERROR,'IPN identified as a recurring payment.');
+            if ($debug) $modx->log(modX::LOG_LEVEL_ERROR,'IPN identified as a recurring payment.');
             $transid = $ipn_post_data['txn_id'];
             $existingTransaction = $modx->getObject('smTransaction',array('reference' => $transid));
             if ($existingTransaction instanceof smTransaction) 
@@ -90,7 +90,7 @@ if($status == 200 && $response == 'VERIFIED') {
                
             // Make sure the payment was completed.
             if ($ipn_post_data['payment_status'] != 'Completed') {
-               if ($debug) $modx->log(MODX_LEVEL_ERROR,'IPN received, but payment status not confirmed. Doing nothing.');
+               if ($debug) $modx->log(modX::LOG_LEVEL_ERROR,'IPN received, but payment status not confirmed. Doing nothing.');
                return '';
             }
             
@@ -98,7 +98,7 @@ if($status == 200 && $response == 'VERIFIED') {
             $subtoken = $ipn_post_data['recurring_payment_id'];
             $subscription = $modx->getObject('smSubscription',array('pp_profileid' => $subtoken));
             if (!($subscription instanceof smSubscription)) {
-               $modx->log(MODX_LEVEL_ERROR,'IPN received with profile ID '.$subtoken.', however cant find a matching subscription. Doing nothing. Transaction ID: '.$ipn_post_data['txn_id']);
+               $modx->log(modX::LOG_LEVEL_ERROR,'IPN received with profile ID '.$subtoken.', however cant find a matching subscription. Doing nothing. Transaction ID: '.$ipn_post_data['txn_id']);
                return '';
             }
             
@@ -112,20 +112,20 @@ if($status == 200 && $response == 'VERIFIED') {
                 'amount' => $ipn_post_data['amount']
             ));
             if (!$transaction->save()) {
-                $modx->log(MODX_LEVEL_ERROR,'Failed saving transaction for subcription '.$subscription->get('sub_id').'. Transaction ID: '.$ipn_post_data['txn_id']);
+                $modx->log(modX::LOG_LEVEL_ERROR,'Failed saving transaction for subcription '.$subscription->get('sub_id').'. Transaction ID: '.$ipn_post_data['txn_id']);
                 return '';
             }
             
             $result = $modx->sm->processTransaction($transaction);
             if ($result !== true) {
-                $modx->log(MODX_LEVEL_ERROR,'Failed processing transaction: '.$result);
+                $modx->log(modX::LOG_LEVEL_ERROR,'Failed processing transaction: '.$result);
                 return '';
             }
             
             return true;
             break;
         case 'recurring_payment_expired':
-            if ($debug) $modx->log(MODX_LEVEL_ERROR,'IPN identified as an expired Recurring Payments Profile.');
+            if ($debug) $modx->log(modX::LOG_LEVEL_ERROR,'IPN identified as an expired Recurring Payments Profile.');
             // A recurring payment expired - we should probably cancel the subscription.
                 // Let's just check if the subscriptions have expired.
 
@@ -133,7 +133,7 @@ if($status == 200 && $response == 'VERIFIED') {
                 /* @var smSubscription $subscription */
                 $subscription = $modx->getObject('smSubscription',array('pp_profileid' => $pp_profileid));
                 if (!($subscription instanceof smSubscription)) {
-                    $modx->log(MODX_LEVEL_ERROR,'Payment Profile cancellation received via IPN, however related subscription could not be found.');
+                    $modx->log(modX::LOG_LEVEL_ERROR,'Payment Profile cancellation received via IPN, however related subscription could not be found.');
                     return '';
                 }
                 $user = $subscription->get('user_id');
@@ -148,7 +148,7 @@ if($status == 200 && $response == 'VERIFIED') {
                 if ($user instanceof modUser) {
                     $result = $modx->sm->sendNotificationEmail($ipn_post_data['txn_type'], $subscription, $user, $product);
                     if ($result !== true)
-                        $modx->log(MODX_LEVEL_ERROR,'Error sending notification email to user #'.$user->get('id').' for IPN type '.$ipn_post_data['txn_type'].': '.$result);
+                        $modx->log(modX::LOG_LEVEL_ERROR,'Error sending notification email to user #'.$user->get('id').' for IPN type '.$ipn_post_data['txn_type'].': '.$result);
                     return true;
                 }
                 else {
@@ -157,7 +157,7 @@ if($status == 200 && $response == 'VERIFIED') {
             return '';
             break;
         case 'recurring_payment_skipped':
-            if ($debug) $modx->log(MODX_LEVEL_ERROR,'Recurring payment skipped');
+            if ($debug) $modx->log(modX::LOG_LEVEL_ERROR,'Recurring payment skipped');
             // A payment was skipped. That doesn't mean we need to deactivate right away, but it can't hurt to check
                 // if the subscriptions haven't expired yet.
 
@@ -166,7 +166,7 @@ if($status == 200 && $response == 'VERIFIED') {
                 /* @var smSubscription $subscription */
                 $subscription = $modx->getObject('smSubscription',array('pp_profileid' => $pp_profileid));
                 if (!($subscription instanceof smSubscription)) {
-                    $modx->log(MODX_LEVEL_ERROR,'Payment Profile cancellation received via IPN, however related subscription could not be found.');
+                    $modx->log(modX::LOG_LEVEL_ERROR,'Payment Profile cancellation received via IPN, however related subscription could not be found.');
                     return '';
                 }
                 $user = $subscription->get('user_id');
@@ -180,7 +180,7 @@ if($status == 200 && $response == 'VERIFIED') {
                 if ($user instanceof modUser) {
                     $result = $modx->sm->sendNotificationEmail($ipn_post_data['txn_type'], $subscription, $user, $product);
                     if ($result !== true)
-                        $modx->log(MODX_LEVEL_ERROR,'Error sending notification email to user #'.$user->get('id').' for IPN type '.$ipn_post_data['txn_type'].': '.$result);
+                        $modx->log(modX::LOG_LEVEL_ERROR,'Error sending notification email to user #'.$user->get('id').' for IPN type '.$ipn_post_data['txn_type'].': '.$result);
                     return true;
                 }
                 else {
@@ -194,7 +194,7 @@ if($status == 200 && $response == 'VERIFIED') {
                 /* @var smSubscription $subscription */
                 $subscription = $modx->getObject('smSubscription',array('pp_profileid' => $pp_profileid));
                 if (!($subscription instanceof smSubscription)) {
-                    $modx->log(MODX_LEVEL_ERROR,'Payment Profile cancellation received via IPN, however related subscription could not be found.');
+                    $modx->log(modX::LOG_LEVEL_ERROR,'Payment Profile cancellation received via IPN, however related subscription could not be found.');
                     return '';
                 }
 
@@ -202,14 +202,14 @@ if($status == 200 && $response == 'VERIFIED') {
                 $modx->sm->checkForExpiredSubscriptions($subscription->get('user_id'));
 
                 if ($ipn_post_data['profile_status'] != 'Cancelled') {
-                    $modx->log(MODX_LEVEL_ERROR,'Payment Profile cancellation received via IPN, however profile status is not "Cancelled" but '.$ipn_post_data['profile_status']);
+                    $modx->log(modX::LOG_LEVEL_ERROR,'Payment Profile cancellation received via IPN, however profile status is not "Cancelled" but '.$ipn_post_data['profile_status']);
                     return '';
                 }
 
                 // Mark as inactive to indicate the subscription has been cancelled.
                 $subscription->set('active',false);
                 if (!$subscription->save()) {
-                    $modx->log(MODX_LEVEL_ERROR,'Error trying to deactivate subscription '.$subscription->get('sub_id'));
+                    $modx->log(modX::LOG_LEVEL_ERROR,'Error trying to deactivate subscription '.$subscription->get('sub_id'));
                 }
 
                 // Send a notification email to notify them of the skipped payment
@@ -219,7 +219,7 @@ if($status == 200 && $response == 'VERIFIED') {
                 if ($user instanceof modUser) {
                     $result = $modx->sm->sendNotificationEmail($ipn_post_data['txn_type'], $subscription, $user, $product);
                     if ($result !== true)
-                        $modx->log(MODX_LEVEL_ERROR,'Error sending notification email to user #'.$user->get('id').' for IPN type '.$ipn_post_data['txn_type'].': '.$result);
+                        $modx->log(modX::LOG_LEVEL_ERROR,'Error sending notification email to user #'.$user->get('id').' for IPN type '.$ipn_post_data['txn_type'].': '.$result);
                     return true;
                 }
                 else {
@@ -229,7 +229,7 @@ if($status == 200 && $response == 'VERIFIED') {
             break;
 
         default:
-            if ($debug) $modx->log(MODX_LEVEL_ERROR,'IPN identified as other transaction type ('.$ipn_post_data['txn_type'].'), no handling built in at this point.');
+            if ($debug) $modx->log(modX::LOG_LEVEL_ERROR,'IPN identified as other transaction type ('.$ipn_post_data['txn_type'].'), no handling built in at this point.');
             // Don't care about others
            
             return '';
@@ -237,7 +237,7 @@ if($status == 200 && $response == 'VERIFIED') {
     }
 }
 else {
-    $modx->log(MODX_LEVEL_ERROR,'IPN was found to be INVALID');
+    $modx->log(modX::LOG_LEVEL_ERROR,'IPN was found to be INVALID');
     return '';
 }
 return '';

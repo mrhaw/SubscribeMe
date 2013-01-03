@@ -69,7 +69,7 @@ $paypal->API_SIGNATURE = $p['signature'];
 
 $paypal->profile_id = $ppid;
 $paypal->version = '57.0';
-//$modx->log(MODX_LEVEL_ERROR,$paypal->generateNVPString('GetRecurringPaymentsProfileDetails'));
+//$modx->log(modX::LOG_LEVEL_ERROR,$paypal->generateNVPString('GetRecurringPaymentsProfileDetails'));
 $paypal->get_recurring_payments_profile_details();
 //return $modx->error->failure(print_r($paypal->Response,true));
 if ((strtolower($paypal->Response['STATUS']) != 'active') || (strtolower($paypal->Response['STATUS']) != 'active'))
@@ -80,7 +80,7 @@ $paypal->version = '57.0';
 $paypal->action = 'Cancel';
 $paypal->note = $modx->lexicon('sm.notification.admincancelledsubscription');
 
-//$modx->log(MODX_LEVEL_ERROR,$paypal->generateNVPString('ManageRecurringPaymentsProfileStatus'));
+//$modx->log(modX::LOG_LEVEL_ERROR,$paypal->generateNVPString('ManageRecurringPaymentsProfileStatus'));
 $paypal->manage_recurring_payments_profile_status();
 //return $modx->error->failure(print_r($paypal->Response,true));
 

@@ -61,7 +61,7 @@ $paypal->API_SIGNATURE = $p['signature'];
 
 $paypal->profile_id = $ppid;
 $paypal->version = '57.0';
-//$modx->log(MODX_LEVEL_ERROR,$paypal->generateNVPString('GetRecurringPaymentsProfileDetails'));
+//$modx->log(modX::LOG_LEVEL_ERROR,$paypal->generateNVPString('GetRecurringPaymentsProfileDetails'));
 $paypal->get_recurring_payments_profile_details();
 //return $modx->error->failure(print_r($paypal->Response,true));
 if ((strtolower($paypal->Response['STATUS']) != 'active') || (strtolower($paypal->Response['STATUS']) != 'active'))
@@ -72,7 +72,7 @@ $paypal->version = '57.0';
 $paypal->action = 'Cancel';
 $paypal->note = $modx->lexicon('sm.notification.admincancelledsubscription');
 
-//$modx->log(MODX_LEVEL_ERROR,$paypal->generateNVPString('ManageRecurringPaymentsProfileStatus'));
+//$modx->log(modX::LOG_LEVEL_ERROR,$paypal->generateNVPString('ManageRecurringPaymentsProfileStatus'));
 $paypal->manage_recurring_payments_profile_status();
 //return $modx->error->failure(print_r($paypal->Response,true));
 
@@ -89,7 +89,7 @@ if (strtolower($paypal->Response['ACK']) == 'success') {
     if ($user instanceof modUser) {
         $result = $modx->sm->sendNotificationEmail('recurring_payment_cancelledbyadmin', $sub, $user, $product);
         if ($result !== true)
-            $modx->log(MODX_LEVEL_ERROR,'Error sending notification email to user #'.$user->get('id').' for IPN type '.$ipn_post_data['txn_type'].': '.$result);
+            $modx->log(modX::LOG_LEVEL_ERROR,'Error sending notification email to user #'.$user->get('id').' for IPN type '.$ipn_post_data['txn_type'].': '.$result);
         return $modx->error->success();
     }
     else {
