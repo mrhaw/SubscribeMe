@@ -46,6 +46,7 @@ if (fwrite($handle, $header) === FALSE) {
 
 foreach ($results as $r) {
     $cl = implode(';',$r)."\r\n";
+    $cl = str_replace("\n"," ", $cl);
     if (fwrite($handle, $cl) === FALSE) {
         $modx->log(1,'Unable to write entry to '.$filename);
         return $modx->error->failure($modx->lexicon('sm.error.export_writeentry',array('file' => $filename)));
