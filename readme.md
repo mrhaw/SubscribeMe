@@ -1,3 +1,7 @@
+# UNSUPPORTED
+
+### SubscribeMe is not supported anymore. Don't use it. Don't expect support. Fork if you want, at your own risk.
+
 # SubscribeMe
 SubscribeMe is a subscriptions extra for MODX Revolution that, well, seems to work but probably needs more testers!
 
